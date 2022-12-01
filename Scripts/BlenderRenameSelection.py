@@ -1,5 +1,5 @@
 import bpy
-# This Script allows you to Change the names of all selected objects at onec or add pre/suffixes to them
+# This Script allows you to Change the names of all selected objects at once and/or add pre/suffixes to them
 
 #set your custom prefix and suffix here or disable them
 addPrefix = True;
@@ -8,12 +8,13 @@ prefix = "pre_"
 suffix = "_suff"
 
 #Set this true if you want to change the current name
-changeName = True
+changeName = False
 newName = "defaultCube"
 
 # Set "addVersioning" True if you want to add versioning at the end with this syntax -> "defaultCube_0" , "defaultCube_1" .. "defaultCube_42"
-#Change "startVersion" if you don't want the versioning to start from 0
-# Keep in mind that blender will automatically add versioning if 2 objects have the same name
+# instead of blender default "defaultCube.001" , "defaultCube.002" .. "defaultCube.042"
+# Change "startVersion" if you don't want the versioning to start from 0
+# Keep in mind that blender will automatically add versioning if objects have the same name
 addVersioning = False
 startVersion = 0
 
