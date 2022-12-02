@@ -23,10 +23,6 @@ PROPS = [
     ('startVersion', bpy.props.IntProperty(name='startVersion', default=0)),
 ]
 
-CLASSES = [
-RenameSelectionPanel,
-RenameSelectionOperator
-]
 # == PANELS
 class RenameSelectionPanel(bpy.types.Panel):
 
@@ -89,14 +85,15 @@ class RenameSelectionOperator(bpy.types.Operator):
             if _addVersioning:
                 _name = _name + "_" + str(_startVersion)
 
-
             obj.name = _name
-
             _startVersion = _startVersion + 1
 
         return {'FINISHED'}
 
-
+CLASSES = [
+RenameSelectionPanel,
+RenameSelectionOperator,
+]
 
 def register():
     for (prop_name, prop_value) in PROPS:
