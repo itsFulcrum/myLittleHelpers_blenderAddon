@@ -13,14 +13,14 @@ for item in bones_list:
     item.name=item.name.replace("CC_Base_L_Calf","LeftLeg")
     item.name=item.name.replace("CC_Base_L_CalfTwist01","LeftLeg_Twist")
     item.name=item.name.replace("CC_Base_L_Foot","LeftFoot")
-    item.name=item.name.replace("CC_Base_L_ToeBase","LeftBall")
+    item.name=item.name.replace("CC_Base_L_ToeBase","LeftToeBase")
 
     item.name=item.name.replace("CC_Base_R_Thigh","RightUpLeg")
     item.name=item.name.replace("CC_Base_R_ThighTwist01","RightUpLeg_Twist")
     item.name=item.name.replace("CC_Base_R_Calf","RightLeg")
     item.name=item.name.replace("CC_Base_R_CalfTwist01","RightLeg_Twist")
     item.name=item.name.replace("CC_Base_R_Foot","RightFoot")
-    item.name=item.name.replace("CC_Base_R_ToeBase","RightBall")
+    item.name=item.name.replace("CC_Base_R_ToeBase","RightToeBase")
 
     item.name=item.name.replace("CC_Base_L_Clavicle","LeftShoulder")
     item.name=item.name.replace("CC_Base_L_Upperarm","LeftArm")
