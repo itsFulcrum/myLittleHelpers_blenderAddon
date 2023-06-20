@@ -93,9 +93,9 @@ class RenameSelectionOperator(bpy.types.Operator):
 
 
 class MatchDataBlockNamesOperator(bpy.types.Operator):
-    """Rename All Selected Objects"""      # Use this as a tooltip for menu items and buttons.
+    """Match data block name to object name"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "opr.match_mesh_data_names"        # Unique identifier for buttons and menu items to reference.
-    bl_label = "Match Mesh Data Name To Object Name"         # Display name in the interface.
+    bl_label = "Match data block names"         # Display name in the interface.
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):
@@ -109,7 +109,7 @@ class MatchDataBlockNamesOperator(bpy.types.Operator):
         for obj in selection_list:
             _name = obj.name
             obj.dat.name = _name
-        
+
         return {'FINISHED'}
 
 
