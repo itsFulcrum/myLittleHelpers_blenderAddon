@@ -108,7 +108,7 @@ class MatchDataBlockNamesOperator(bpy.types.Operator):
         selection_list = bpy.context.selected_objects
         for obj in selection_list:
             _name = obj.name
-            obj.dat.name = _name
+            obj.data.name = _name
 
         return {'FINISHED'}
 
