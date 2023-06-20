@@ -35,6 +35,7 @@ class RenameSelectionPanel(bpy.types.Panel):
         col.prop(context.scene, 'rs_startVersion')
 
         col.operator('opr.rename_all_selected_objects', text='Rename')
+        col.operator('opr.match_mesh_data_names', text='Match data Block')
 # == Operators
 class RenameSelectionOperator(bpy.types.Operator):
     """Rename All Selected Objects"""      # Use this as a tooltip for menu items and buttons.
@@ -91,9 +92,31 @@ class RenameSelectionOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class MatchDataBlockNamesOperator(bpy.types.Operator):
+    """Rename All Selected Objects"""      # Use this as a tooltip for menu items and buttons.
+    bl_idname = "opr.match_mesh_data_names"        # Unique identifier for buttons and menu items to reference.
+    bl_label = "Match Mesh Data Name To Object Name"         # Display name in the interface.
+    bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
+
+    def execute(self, context):
+        params = (
+            context.scene.rs_prefix,
+        )
+
+        # Matches mesh data block name to object name for entire selection
+
+        selection_list = bpy.context.selected_objects
+        for obj in selection_list:
+            _name = obj.name
+            obj.dat.name = _name
+        
+        return {'FINISHED'}
+
+
 Classes = [
 RenameSelectionPanel,
 RenameSelectionOperator,
+MatchDataBlockNamesOperator,
 ]
 
 def register():
