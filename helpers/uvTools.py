@@ -3,7 +3,6 @@ import bpy
 # == PROPERTIES:
 Properties = [
 # Create LightmapUVs tool
-('uvt_lightmapName', bpy.props.StringProperty(name='Lightmap Name', default='UV_Lightmap')),
 
 ('uvt_uvName', bpy.props.StringProperty(name='New UV Name', default='UV_Main')),
 ('uvt_uvIndex', bpy.props.IntProperty(name='Layer Index', default=0)),
@@ -24,12 +23,13 @@ class UVToolsPanel(bpy.types.Panel):
     def draw(self, context):
         col = self.layout.column()
         # lightmap pack
-        col.prop(context.scene, 'uvt_lightmapName')
-        col.operator('opr.create_lightmaps_for_selection', text='Create lightmap_pack')
+
         # rename uv layers
         col.prop(context.scene,'uvt_uvName')
+        col.operator('opr.create_lightmaps_for_selection', text='Create lightmap_pack')
         col.prop(context.scene,'uvt_uvIndex')
-        col.operator('opr.rename_uv_layers_for_selected', text='rename UV Layers')
+        col.operator('opr.rename_uv_layers_for_selected', text='Rename UV Layer')
+        col.operator('opr.make_uv_layer_active', text='Set Active Render UV Layer')
 
 
 # == Operators
@@ -41,14 +41,14 @@ class CreateLightmapUVsOperator(bpy.types.Operator):
 
     def execute(self, context):
         params = (
-            context.scene.uvt_lightmapName,
+            context.scene.uvt_uvName,
         )
         # creates lightmapUVs using build in lightmap pack unwrap option
         # for each selected object
 
         selection_list = bpy.context.selected_objects
 
-        UVName = context.scene.uvt_lightmapName
+        UVName = context.scene.uvt_uvName
 
         bpy.ops.object.select_all(action='DESELECT')
 
@@ -62,6 +62,9 @@ class CreateLightmapUVsOperator(bpy.types.Operator):
             obj.select_set(False)
 
         return {'FINISHED'}
+
+
+
 class RenameUVLayers(bpy.types.Operator):
     """Renames specified UV layer (if existing) for all selected object at once"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "opr.rename_uv_layers_for_selected"        # Unique identifier for buttons and menu items to reference.
@@ -90,11 +93,40 @@ class RenameUVLayers(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class MakeActiveUVLayer(bpy.types.Operator):
+    """Makes specified UV layer index the active uv layer for rendering"""      # Use this as a tooltip for menu items and buttons.
+    bl_idname = "opr.make_uv_layer_active"        # Unique identifier for buttons and menu items to reference.
+    bl_label = "Make UV Layer Active"         # Display name in the interface.
+    bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
+
+    def execute(self, context):
+        params = (
+            context.scene.uvt_uvIndex,
+
+        )
+        # Makes specified UV layer index the active uv layer for rendering
+
+        selection_list = bpy.context.selected_objects
+
+        uvIndex = context.scene.uvt_uvIndex
+
+        #bpy.ops.object.select_all(action='DESELECT')
+
+        for obj in selection_list:
+            if len(obj.data.uv_layers) > uvIndex:
+                obj.data.uv_layers[uvIndex].active_render = True
+
+        return {'FINISHED'}
+
+
+
+
 
 Classes = [
 UVToolsPanel,
 CreateLightmapUVsOperator,
 RenameUVLayers,
+MakeActiveUVLayer,
 ]
 
 def register():
