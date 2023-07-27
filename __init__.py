@@ -4,7 +4,7 @@ bl_info = {
     'blender': (3, 0, 0),
     'category': 'Object',
     # optional
-    'version': (1, 0, 4),
+    'version': (1, 0, 5),
     'author': 'Fulcrum',
     'description': 'useful workflow automisation operations',
 }
@@ -20,12 +20,14 @@ from .helpers import uvTools
 from .helpers import attributeTools
 from .helpers import renameCCRigBones
 
+from .helpers import uvTransformTools
+
 import bpy
 
 
 
 
-modules = [panel_Init,copyBoneTransforms,transferShapeKeys,renameSelection,uvTools,attributeTools,renameCCRigBones]
+modules = [panel_Init,copyBoneTransforms,transferShapeKeys,renameSelection,uvTools,attributeTools,renameCCRigBones,uvTransformTools]
 
 # register scripts
 
