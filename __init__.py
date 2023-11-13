@@ -22,12 +22,14 @@ from .helpers import renameCCRigBones
 
 from .helpers import uvTransformTools
 
+from .helpers import uvReorder
+
 import bpy
 
 
 
 
-modules = [panel_Init,copyBoneTransforms,transferShapeKeys,renameSelection,uvTools,attributeTools,renameCCRigBones,uvTransformTools]
+modules = [panel_Init,copyBoneTransforms,transferShapeKeys,renameSelection,uvTools,attributeTools,renameCCRigBones,uvTransformTools,uvReorder]
 
 # register scripts
 
