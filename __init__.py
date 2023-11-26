@@ -4,9 +4,9 @@ bl_info = {
     'blender': (3, 0, 0),
     'category': 'Object',
     # optional
-    'version': (1, 0, 5),
+    'version': (1, 0, 6),
     'author': 'Fulcrum',
-    'description': 'useful workflow automisation operations',
+    'description': 'useful workflow operations',
 }
 
 
@@ -21,7 +21,6 @@ from .helpers import attributeTools
 from .helpers import renameCCRigBones
 
 from .helpers import uvTransformTools
-
 from .helpers import uvReorder
 
 import bpy

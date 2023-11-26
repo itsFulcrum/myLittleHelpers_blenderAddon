@@ -21,7 +21,8 @@ class RenameCCRigPanel(bpy.types.Panel):
     def draw(self, context):
         col = self.layout.column()
         col.prop(context.scene, 'rcc_ArmatureName')
-        col.operator('opr.rename_cc_gamebaserig_bones', text='Rename')
+        col.operator('opr.rename_cc_gamebaserig_bones', text='Rename GameBase')
+        col.operator('opr.rename_cc_base_rig_bones', text='Rename Base')
 # == Operators
 class RenameCCGameBaseRigOperator(bpy.types.Operator):
     """Rename CC Rig bones """      # Use this as a tooltip for menu items and buttons.
@@ -37,7 +38,7 @@ class RenameCCGameBaseRigOperator(bpy.types.Operator):
         # -> Make sure your Characters Armature has the same name as the specified in this first line below
         # -> Select your armature and run the script
         armatureName = context.scene.rcc_ArmatureName
-        bones_list = bpy.data.armatures['armatureName'].bones
+        bones_list = bpy.data.armatures[armatureName].bones
 
         for item in bones_list:
             item.name=item.name.replace("pelvis","Hips")
@@ -84,11 +85,79 @@ class RenameCCGameBaseRigOperator(bpy.types.Operator):
 
         return {'FINISHED'}
 
+class RenameCCBaseRigOperator(bpy.types.Operator):
+    """Rename CC Rig bones """      # Use this as a tooltip for menu items and buttons.
+    bl_idname = "opr.rename_cc_base_rig_bones"        # Unique identifier for buttons and menu items to reference.
+    bl_label = "Rename CC3 Base Rig bones"         # Display name in the interface.
+    bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
+
+    def execute(self, context):
+        params = (
+            context.scene.rcc_ArmatureName,
+        )
+        #This Script Renames the armature Bones for CC3 Exported GameBase Characters for our workflow
+        # -> Make sure your Characters Armature has the same name as the specified in this first line below
+        # -> Select your armature and run the script
+        armatureName = context.scene.rcc_ArmatureName
+        bones_list = bpy.data.armatures[armatureName].bones
+
+        for item in bones_list:
+
+            item.name=item.name.replace("CC_Base_BoneRoot","root")
+
+            item.name=item.name.replace("CC_Base_Hip","Hips")
+            item.name=item.name.replace("CC_Base_Pelvis","Pelvis")
+
+            # Left Leg
+            item.name = item.name.replace("CC_Base_L_Thigh","LeftUpLeg")
+            item.name = item.name.replace("CC_Base_L_ThighTwist01","LeftUpLeg_Twist")
+            item.name = item.name.replace("CC_Base_L_Calf","LeftLeg")
+            item.name = item.name.replace("CC_Base_L_CalfTwist01","LeftLeg_Twist")
+            item.name = item.name.replace("CC_Base_L_Foot","LeftFoot")
+            item.name = item.name.replace("CC_Base_L_ToeBase","LeftToeBase")  # old one was LeftBall
+            # Right Leg
+            item.name = item.name.replace("CC_Base_R_Thigh","RightUpLeg")
+            item.name = item.name.replace("CC_Base_R_ThighTwist01","RightUpLeg_Twist")
+            item.name = item.name.replace("CC_Base_R_Calf","RightLeg")
+            item.name = item.name.replace("CC_Base_R_CalfTwist01","RightLeg_Twist")
+            item.name = item.name.replace("CC_Base_R_Foot","RightFoot")
+            item.name = item.name.replace("CC_Base_R_ToeBase","RightToeBase") # old one was RightBall
+            # Spine
+            item.name = item.name.replace("CC_Base_Waist","Spine1")
+            item.name = item.name.replace("CC_Base_Spine01","Spine2")
+            item.name = item.name.replace("CC_Base_Spine02","Spine3")
+            item.name=item.name.replace("CC_Base_R_RibsTwist","Right_RibsTwist")
+            item.name=item.name.replace("CC_Base_L_RibsTwist","Left_RibsTwist")
+            # Head
+            item.name = item.name.replace("CC_Base_NeckTwist01","Neck")
+            item.name = item.name.replace("CC_Base_NeckTwist02","Neck_Twist")
+            item.name = item.name.replace("CC_Base_Headr","Head")
+
+            # Left Arm
+            item.name=item.name.replace("CC_Base_L_Clavicle","LeftShoulder")
+            item.name=item.name.replace("CC_Base_L_Upperarm","LeftArm")
+            item.name=item.name.replace("CC_Base_L_UpperarmTwist01","LeftArm_Twist")
+            item.name=item.name.replace("CC_Base_L_Forearm","LeftForeArm")
+            item.name=item.name.replace("CC_Base_L_ForearmTwist01","LeftForeArm_Twist")
+            item.name=item.name.replace("CC_Base_L_Hand","LeftHand")
+            # Right Arm
+            item.name=item.name.replace("CC_Base_R_Clavicle","RightShoulder")
+            item.name=item.name.replace("CC_Base_R_Upperarm","RightArm")
+            item.name=item.name.replace("CC_Base_R_UpperarmTwist01","RightArm_Twist")
+            item.name=item.name.replace("CC_Base_R_Forearm","RightForeArm")
+            item.name=item.name.replace("CC_Base_R_ForearmTwist01","RightForeArm_Twist")
+            item.name=item.name.replace("CC_Base_R_Hand","RightHand")
+
+
+
+        return {'FINISHED'}
+
 
 
 Classes = [
 RenameCCRigPanel,
 RenameCCGameBaseRigOperator,
+RenameCCBaseRigOperator,
 ]
 
 def register():

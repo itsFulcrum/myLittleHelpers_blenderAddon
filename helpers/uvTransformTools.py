@@ -2,9 +2,6 @@ import bpy
 
 # == PROPERTIES:
 Properties = [
-# Create LightmapUVs tool
-
-#we currently dont need anything here
 
 ]
 
@@ -20,18 +17,24 @@ class UVTransformToolsPanel(bpy.types.Panel):
 
 
     def draw(self, context):
-        col = self.layout.column()
-        # lightmap pack
+        layout = self.layout
+        #layout.label(text="Test:")
+        row = layout.row()
 
-        # rename uv layers
-        col.operator('opr.rotate_uv_island_45_degrees', text='Rotate +45')
-        col.operator('opr.rotate_uv_island_minus_45_degrees', text='Rotate -45')
-        col.operator('opr.rotate_uv_island_90_degrees', text='Rotate +90')
-        col.operator('opr.rotate_uv_island_minus_90_degrees', text='Rotate -90')
+
+        col1 = row.column(align=True)
+        col1.operator('opr.rotate_uv_island_45_degrees', text='Rotate +45')
+        col1.operator('opr.rotate_uv_island_minus_45_degrees', text='Rotate -45')
+
+        #layout.separator()
+
+        col2 = row.column(align=True)
+        col2.operator('opr.rotate_uv_island_90_degrees', text='Rotate +90')
+        col2.operator('opr.rotate_uv_island_minus_90_degrees', text='Rotate -90')
+
+        #layout.separator()
+        col = layout.column()
         col.operator('opr.rotate_uv_island_180_degrees', text='Rotate +180')
-
-
-
 
 
 # == Operators

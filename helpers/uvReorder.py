@@ -2,17 +2,10 @@
 import bpy
 from bpy.types import Operator
 
-bl_info = {
-    "name": "UV Reorder",
-    "author": "Fulcrum",
-    "version": (1, 1),
-    "blender": (2, 80, 0),
-    "location": "UV maps in properties window",
-    "description": "Reorder UV Layers of Object",
-    "doc_url": "",
-    "tracker_url": "",
-    "category": "UV"
-}
+# == PROPERTIES:
+Properties = [
+
+]
 
 
 def make_active(name):
@@ -40,8 +33,10 @@ def move_to_bottom(index):
     uvs.active.name = new_name
 
 
-class MESH_OT_uv_down(Operator):
-    bl_idname = "mesh.uv_texture_down"
+
+# == Operators
+class Move_uv_down(Operator):
+    bl_idname = "mesh.uv_down"
     bl_label = "Move Down"
     bl_options = {"REGISTER", "UNDO"}
 
@@ -70,8 +65,8 @@ class MESH_OT_uv_down(Operator):
         return {'FINISHED'}
 
 
-class MESH_OT_uv_up(Operator):
-    bl_idname = "mesh.uv_texture_up"
+class Move_uv_up(Operator):
+    bl_idname = "mesh.uv_up"
     bl_label = "Move Up"
     bl_options = {"REGISTER", "UNDO"}
 
@@ -89,8 +84,8 @@ class MESH_OT_uv_up(Operator):
         return {'FINISHED'}
 
 
-class MESH_OT_uv_a_to_z (Operator):
-    bl_idname = 'mesh.uv_texture_a_to_z'
+class Sort_uvs_a_to_z (Operator):
+    bl_idname = 'mesh.uvs_a_to_z'
     bl_label = 'Sort A to Z'
     bl_description = "Sorting UVs by name (A to Z)"
     bl_options = {"REGISTER", "UNDO"}
@@ -112,8 +107,8 @@ class MESH_OT_uv_a_to_z (Operator):
         return {"FINISHED"}
 
 
-class MESH_OT_uv_z_to_a (Operator):
-    bl_idname = 'mesh.uv_texture_z_to_a'
+class Sort_uvs_z_to_a (Operator):
+    bl_idname = 'mesh.uvs_z_to_a'
     bl_label = 'Sort Z to A'
     bl_description = "Sorting UVs by name (Z to A)"
     bl_options = {"REGISTER", "UNDO"}
@@ -141,29 +136,40 @@ def uv_tools_addition(self, context):
     row = layout.row()
 
     col1 = row.column(align=True)
-    col1.operator("mesh.uv_texture_up", icon='TRIA_UP')
-    col1.operator("mesh.uv_texture_down", icon='TRIA_DOWN')
+    col1.operator("mesh.uv_up", icon='TRIA_UP')
+    col1.operator("mesh.uv_down", icon='TRIA_DOWN')
 
     layout.separator()
 
     col2 = row.column(align=True)
-    col2.operator("mesh.uv_texture_a_to_z", icon='TRIA_UP_BAR')
-    col2.operator("mesh.uv_texture_z_to_a", icon='TRIA_DOWN_BAR')
+    col2.operator("mesh.uvs_a_to_z", icon='TRIA_UP_BAR')
+    col2.operator("mesh.uvs_z_to_a", icon='TRIA_DOWN_BAR')
 
+
+Classes = [
+Move_uv_down,
+Move_uv_up,
+Sort_uvs_a_to_z,
+Sort_uvs_z_to_a,
+]
 
 def register():
-    bpy.utils.register_class(MESH_OT_uv_down)
-    bpy.utils.register_class(MESH_OT_uv_up)
-    bpy.utils.register_class(MESH_OT_uv_a_to_z)
-    bpy.utils.register_class(MESH_OT_uv_z_to_a)
+    for (prop_name, prop_value) in Properties:
+        setattr(bpy.types.Scene, prop_name, prop_value)
+
+    for cls in Classes:
+        bpy.utils.register_class(cls)
+
     bpy.types.DATA_PT_uv_texture.append(uv_tools_addition)
 
 
 def unregister():
-    bpy.utils.unregister_class(MESH_OT_uv_down)
-    bpy.utils.unregister_class(MESH_OT_uv_up)
-    bpy.utils.unregister_class(MESH_OT_uv_a_to_z)
-    bpy.utils.unregister_class(MESH_OT_uv_z_to_a)
+    for (prop_name, prop_value) in Properties:
+        delattr(bpy.types.Scene, prop_name)
+
+    for cls in Classes:
+        bpy.utils.unregister_class(cls)
+
     bpy.types.DATA_PT_uv_texture.remove(uv_tools_addition)
 
 

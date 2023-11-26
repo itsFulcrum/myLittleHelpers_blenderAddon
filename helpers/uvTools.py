@@ -22,18 +22,25 @@ class UVToolsPanel(bpy.types.Panel):
 
 
     def draw(self, context):
-        col = self.layout.column()
-        # lightmap pack
+        layout = self.layout
+        col = layout.column()
 
-        # rename uv layers
-        col.prop(context.scene,'uvt_uvName')
-        col.operator('opr.create_lightmaps_for_selection', text='Create lightmap_pack')
-        col.prop(context.scene,'uvt_uvPackMargin')
-        col.operator('opr.make_lightmap_from_active_uv_for_selection', text='Lightmap from active')
+
+
         col.prop(context.scene,'uvt_uvIndex')
+        col.prop(context.scene,'uvt_uvName')
+
+        col.separator()
+
         col.operator('opr.rename_uv_layers_for_selected', text='Rename UV Layer')
         col.operator('opr.make_uv_layer_active', text='Set Active UV Layer')
         col.operator('opr.make_uv_layer_active_render', text='Set Active Render UV Layer')
+
+        col.separator()
+        
+        col.prop(context.scene,'uvt_uvPackMargin')
+        col.operator('opr.create_lightmaps_for_selection', text='Create lightmap_pack')
+        col.operator('opr.make_lightmap_from_active_uv_for_selection', text='Lightmap from active')
 
 
 
