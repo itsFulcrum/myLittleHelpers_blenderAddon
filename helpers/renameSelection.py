@@ -1,5 +1,4 @@
 import bpy
-import string
 
 # == PROPERTIES:
 Properties = [

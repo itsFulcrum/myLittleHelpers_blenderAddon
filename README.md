@@ -10,9 +10,9 @@ Download Repository as zip and install like any other blender addon.
 If you are just interested in just one function once. all script are modular meaning that you can just copy the specifc scripts contents
 into blenders text editor, run it and the panel for this specific script will appear in the side panel. without you having to download and install the whole addon.
 
-#### Documentation
+### Documentation
 
-##### Copy Bone Tranforms ==
+##### Copy Bone Tranforms
 This script is meant to be used when you have two identical rigs and want to copy the current pose of one to the other.
 you may use this also for transfering existing animations to a different rig.
 For this to work the rigs need to have the exact same bones and those bone need to have the same names.
@@ -59,7 +59,7 @@ For now I only implemented vertex color.
 You can specify a color and name and add a vertex color attribute to all your selected object.
 
 
-##### Rename CC3 Rig ==
+##### Rename CC3 Rig
 you will most likely never use this but for the sake of completion I'll explain it.
 if you export a character from character creator 3 using the game base version you can press this button and it will rename the bone names
 You may not find this useful because it is simply the nameing convetion that we need at work for our worklflow to copy mocap data onto any character that we create using CC3.
