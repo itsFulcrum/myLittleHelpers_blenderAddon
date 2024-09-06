@@ -1,15 +1,19 @@
 import bpy
+import string
 
 # == PROPERTIES:
 Properties = [
-    ('rs_prefix', bpy.props.StringProperty(name='prefix', default='pre_')),
-    ('rs_suffix', bpy.props.StringProperty(name='suffix', default='_suff')),
-    ('rs_addPrefix', bpy.props.BoolProperty(name='Add Prefix', default=False)),
-    ('rs_addSuffix', bpy.props.BoolProperty(name='Add Suffix', default=False)),
-    ('rs_changeName', bpy.props.BoolProperty(name='Change Name', default=False)),
-    ('rs_newName', bpy.props.StringProperty(name='New Name', default='DefaultCube')),
-    ('rs_addVersioning', bpy.props.BoolProperty(name='Custom Versioning', default=False)),
-    ('rs_startVersion', bpy.props.IntProperty(name='Start Version', default=0)),
+    ('rs_prefix'        , bpy.props.StringProperty(name='prefix', default='pre_')),
+    ('rs_suffix'        , bpy.props.StringProperty(name='suffix', default='_suff')),
+    ('rs_addPrefix'     , bpy.props.BoolProperty(name='Add Prefix', default=False)),
+    ('rs_addSuffix'     , bpy.props.BoolProperty(name='Add Suffix', default=False)),
+    ('rs_changeName'    , bpy.props.BoolProperty(name='Change Name', default=False)),
+    ('rs_newName'       , bpy.props.StringProperty(name='New Name', default='DefaultCube')),
+    ('rs_replace'       , bpy.props.BoolProperty(name='Replace', default=False)),
+    ('rs_replaceFind'   , bpy.props.StringProperty(name='Replace Find', default='Find This')),
+    ('rs_replaceWith'   , bpy.props.StringProperty(name='Replace With', default='Replace With')),
+    ('rs_addVersioning' , bpy.props.BoolProperty(name='Custom Versioning', default=False)),
+    ('rs_startVersion'  , bpy.props.IntProperty(name='Start Version', default=0)),
 ]
 
 
@@ -31,6 +35,9 @@ class RenameSelectionPanel(bpy.types.Panel):
         col.prop(context.scene, 'rs_suffix')
         col.prop(context.scene, 'rs_changeName')
         col.prop(context.scene, 'rs_newName')
+        col.prop(context.scene, 'rs_replace')
+        col.prop(context.scene, 'rs_replaceFind')
+        col.prop(context.scene, 'rs_replaceWith')
         col.prop(context.scene, 'rs_addVersioning')
         col.prop(context.scene, 'rs_startVersion')
 
@@ -51,6 +58,9 @@ class RenameSelectionOperator(bpy.types.Operator):
             context.scene.rs_addSuffix,
             context.scene.rs_changeName,
             context.scene.rs_newName,
+            context.scene.rs_replace,
+            context.scene.rs_replaceFind,
+            context.scene.rs_replaceWith,
             context.scene.rs_addVersioning,
             context.scene.rs_startVersion,
         )
@@ -62,6 +72,9 @@ class RenameSelectionOperator(bpy.types.Operator):
         addSuffix = context.scene.rs_addSuffix
         prefix = context.scene.rs_prefix
         suffix = context.scene.rs_suffix
+        replace = context.scene.rs_replace
+        replaceFind = context.scene.rs_replaceFind
+        replaceWith = context.scene.rs_replaceWith
 
         #Set this true if you want to change the current name
         changeName = context.scene.rs_changeName
@@ -77,6 +90,10 @@ class RenameSelectionOperator(bpy.types.Operator):
         selection_list = bpy.context.selected_objects
         for obj in selection_list:
             _name = obj.name
+
+            if replace:
+                _name = _name.replace(replaceFind,replaceWith)
+
             if changeName:
                 _name = newName
             if addPrefix:
@@ -87,6 +104,7 @@ class RenameSelectionOperator(bpy.types.Operator):
                 _name = _name + "_" + str(startVersion)
 
             obj.name = _name
+            obj.data.name = _name
             startVersion = startVersion + 1
 
         return {'FINISHED'}

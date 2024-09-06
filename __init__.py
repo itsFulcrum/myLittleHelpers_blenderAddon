@@ -33,12 +33,10 @@ modules = [panel_Init,copyBoneTransforms,transferShapeKeys,renameSelection,uvToo
 # register scripts
 
 def register():
-
     for module in modules:
         module.register()
 
 def unregister():
-
     for module in modules:
         module.unregister()
 
